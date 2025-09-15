@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fox Creek HOA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>Fox Creek HOA</h2>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#documents" class="nav-link">Documents</a>
+                    <a href="#directory" class="nav-link">Directory</a>
+                    <a href="#events" class="nav-link">Events</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Fox Creek</h1>
+                <p>Your community, your home, your neighborhood</p>
+                <div class="hero-buttons">
+                    <a href="#newsletter" class="btn btn-primary">Join Newsletter</a>
+                    <a href="#documents" class="btn btn-secondary">View Documents</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup Section -->
+        <section id="newsletter" class="newsletter-section">
+            <div class="container">
+                <h2>Stay Connected</h2>
+                <p>Get the latest updates and news from your HOA</p>
+                <form class="newsletter-form" id="newsletter-form">
+                    <div class="form-group">
+                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </div>
+                    <div class="form-message" id="newsletter-message"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Quick Links Section -->
+        <section class="quick-links">
+            <div class="container">
+                <h2>Quick Access</h2>
+                <div class="links-grid">
+                    <a href="#documents" class="link-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Documents & Resources</h3>
+                        <p>Access important HOA documents and forms</p>
+                    </a>
+                    <a href="#directory" class="link-card">
+                        <i class="fas fa-address-book"></i>
+                        <h3>Resident Directory</h3>
+                        <p>Find neighbors and local businesses</p>
+                    </a>
+                    <a href="#events" class="link-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Events</h3>
+                        <p>Community events and meetings</p>
+                    </a>
+                    <a href="#contact" class="link-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Contact Us</h3>
+                        <p>Get in touch with the HOA board</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documents Section -->
+        <section id="documents" class="documents-section">
+            <div class="container">
+                <h2>Documents & Resources</h2>
+                <div class="documents-grid">
+                    <div class="document-category">
+                        <h3>Governing Documents</h3>
+                        <ul class="document-list">
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> CC&Rs (Covenants, Conditions & Restrictions)</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Bylaws</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Articles of Incorporation</a></li>
+                        </ul>
+                    </div>
+                    <div class="document-category">
+                        <h3>Forms & Applications</h3>
+                        <ul class="document-list">
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Architectural Request Form</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Maintenance Request Form</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Parking Permit Application</a></li>
+                        </ul>
+                    </div>
+                    <div class="document-category">
+                        <h3>Meeting Minutes</h3>
+                        <ul class="document-list">
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Board Meeting - January 2024</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Board Meeting - December 2023</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Annual Meeting - November 2023</a></li>
+                        </ul>
+                    </div>
+                    <div class="document-category">
+                        <h3>Financial Reports</h3>
+                        <ul class="document-list">
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Budget 2024</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Financial Statement - Q4 2023</a></li>
+                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Reserve Study 2023</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Directory Section -->
+        <section id="directory" class="directory-section">
+            <div class="container">
+                <h2>Resident & Business Directory</h2>
+                <div class="directory-search">
+                    <input type="text" id="directory-search" placeholder="Search residents or businesses...">
+                    <button class="btn btn-primary" onclick="searchDirectory()">Search</button>
+                </div>
+                <div class="directory-tabs">
+                    <button class="tab-btn active" onclick="showTab('residents')">Residents</button>
+                    <button class="tab-btn" onclick="showTab('businesses')">Businesses</button>
+                </div>
+                <div class="directory-content">
+                    <div id="residents-tab" class="tab-content active">
+                        <div class="directory-grid" id="residents-grid">
+                            <!-- Residents will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div id="businesses-tab" class="tab-content">
+                        <div class="directory-grid" id="businesses-grid">
+                            <!-- Businesses will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="events-section">
+            <div class="container">
+                <h2>Upcoming Events</h2>
+                <div class="events-grid" id="events-grid">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Get in Touch</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@foxcreekhoa.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Fox Creek Drive, Your City, ST 12345</span>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="contact-name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="contact-email" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="contact-subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="contact-message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <div class="form-message" id="contact-message-status"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fox Creek HOA</h3>
+                    <p>Building community, one home at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#documents">Documents</a></li>
+                        <li><a href="#directory">Directory</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>info@foxcreekhoa.com</p>
+                    <p>(555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fox Creek HOA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
