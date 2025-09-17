@@ -579,36 +579,52 @@ function showTab(tabName) {
 
 function populateResidents() {
     const list = document.getElementById('residents-list');
-    if (!list) return;
-    
-    const residents = getResidents();
-    list.innerHTML = '';
-    
-    if (residents.length === 0) {
-        list.innerHTML = `
-            <div class="no-residents">
-                <i class="fas fa-users"></i>
-                <h3>No Residents Yet</h3>
-                <p>Add residents to the directory to get started.</p>
-            </div>
-        `;
+    if (!list) {
+        console.log('Residents list not found on this page');
         return;
     }
     
-    residents.forEach(resident => {
-        const card = document.createElement('div');
-        card.className = 'resident-card';
-        card.innerHTML = `
-            <div class="resident-photo">${resident.photo || '<i class="fas fa-user"></i>'}</div>
-            <div class="resident-info">
-                <div class="resident-name">${resident.name}</div>
-                <div class="resident-street">${resident.address || resident.street}</div>
-                ${resident.business ? `<div class="resident-business">${resident.business}</div>` : ''}
-                ${resident.skills ? `<div class="resident-skills">${resident.skills}</div>` : ''}
+    try {
+        const residents = getResidents();
+        list.innerHTML = '';
+        
+        if (residents.length === 0) {
+            list.innerHTML = `
+                <div class="no-residents">
+                    <i class="fas fa-users"></i>
+                    <h3>No Residents Yet</h3>
+                    <p>Add residents to the directory to get started.</p>
+                </div>
+            `;
+            return;
+        }
+    
+        residents.forEach(resident => {
+            const card = document.createElement('div');
+            card.className = 'resident-card';
+            card.innerHTML = `
+                <div class="resident-photo">${resident.photo || '<i class="fas fa-user"></i>'}</div>
+                <div class="resident-info">
+                    <div class="resident-name">${resident.name}</div>
+                    <div class="resident-street">${resident.address || resident.street}</div>
+                    ${resident.business ? `<div class="resident-business">${resident.business}</div>` : ''}
+                    ${resident.skills ? `<div class="resident-skills">${resident.skills}</div>` : ''}
+                </div>
+            `;
+            list.appendChild(card);
+        });
+        
+        console.log('Residents populated successfully');
+    } catch (error) {
+        console.error('Error populating residents:', error);
+        list.innerHTML = `
+            <div class="no-residents">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Error Loading Residents</h3>
+                <p>There was an error loading the residents list. Please refresh the page.</p>
             </div>
         `;
-        list.appendChild(card);
-    });
+    }
 }
 
 function populateBusinesses() {
@@ -1072,7 +1088,12 @@ function handleResidentCreation(event) {
 function getResidents() {
     const savedResidents = localStorage.getItem('foxCreekResidents');
     if (savedResidents) {
-        return JSON.parse(savedResidents);
+        try {
+            return JSON.parse(savedResidents);
+        } catch (error) {
+            console.error('Error parsing saved residents:', error);
+            localStorage.removeItem('foxCreekResidents');
+        }
     }
     // Return default residents (from the existing residents array)
     return residents;
@@ -1080,7 +1101,12 @@ function getResidents() {
 
 // Save residents to localStorage
 function saveResidents(residents) {
-    localStorage.setItem('foxCreekResidents', JSON.stringify(residents));
+    try {
+        localStorage.setItem('foxCreekResidents', JSON.stringify(residents));
+        console.log('Residents saved successfully');
+    } catch (error) {
+        console.error('Error saving residents:', error);
+    }
 }
 
 // Documents Search Functionality
@@ -1219,20 +1245,27 @@ function hideNoResultsMessage() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
-    // Populate residents by default
-    populateResidents();
-    
-    // Populate events - always try to populate
-    populateEvents();
-    
-    // Initialize admin event management
-    initializeAdminEventManagement();
-    
-    // Initialize resident management
-    initializeResidentManagement();
-    
-    // Initialize documents search
-    initializeDocumentsSearch();
+    // Initialize with error handling
+    try {
+        // Populate residents by default
+        populateResidents();
+        
+        // Populate events - always try to populate
+        populateEvents();
+        
+        // Initialize admin event management
+        initializeAdminEventManagement();
+        
+        // Initialize resident management
+        initializeResidentManagement();
+        
+        // Initialize documents search
+        initializeDocumentsSearch();
+        
+        console.log('Website initialized successfully');
+    } catch (error) {
+        console.error('Error initializing website:', error);
+    }
     
     // Add search functionality to directory search input
     const searchInput = document.getElementById('directory-search');
