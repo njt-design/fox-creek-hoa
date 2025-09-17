@@ -770,9 +770,9 @@ function addToCalendar(eventId) {
 
 // Admin Event Management Functions
 function initializeEventCreation() {
-    const createEventBtn = document.querySelector('button[onclick*="Create Event"]');
+    const createEventBtn = document.getElementById('create-event-btn');
     if (createEventBtn) {
-        createEventBtn.onclick = showEventCreationForm;
+        createEventBtn.addEventListener('click', showEventCreationForm);
     }
     
     const eventForm = document.getElementById('event-form');
@@ -782,8 +782,10 @@ function initializeEventCreation() {
 }
 
 function showEventCreationForm() {
+    console.log('showEventCreationForm called');
     // Show the event creation form (assuming it's in a modal or section)
     const eventForm = document.getElementById('event-form');
+    console.log('Event form found:', eventForm);
     if (eventForm) {
         eventForm.scrollIntoView({ behavior: 'smooth' });
         // Focus on the first input
@@ -792,6 +794,7 @@ function showEventCreationForm() {
             firstInput.focus();
         }
     } else {
+        console.log('No event form found, creating modal');
         // If no form exists, create a simple modal
         createEventModal();
     }
@@ -922,6 +925,7 @@ function closeModal() {
 }
 
 function handleEventCreation(event) {
+    console.log('handleEventCreation called');
     event.preventDefault();
     
     const formData = new FormData(event.target);
@@ -937,6 +941,8 @@ function handleEventCreation(event) {
         status: 'upcoming',
         created: new Date().toISOString()
     };
+    
+    console.log('Event data:', eventData);
     
     // Validate required fields
     if (!eventData.title || !eventData.description || !eventData.startDate || !eventData.endDate || !eventData.startTime || !eventData.endTime || !eventData.streetLocation) {
