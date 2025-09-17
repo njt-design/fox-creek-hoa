@@ -770,8 +770,12 @@ function showEventCreationForm() {
     // Show the event creation form (assuming it's in a modal or section)
     const eventForm = document.getElementById('event-form');
     if (eventForm) {
-        eventForm.style.display = 'block';
         eventForm.scrollIntoView({ behavior: 'smooth' });
+        // Focus on the first input
+        const firstInput = eventForm.querySelector('input[type="text"]');
+        if (firstInput) {
+            firstInput.focus();
+        }
     } else {
         // If no form exists, create a simple modal
         createEventModal();
@@ -936,8 +940,11 @@ function handleEventCreation(event) {
     events.push(eventData);
     saveEvents(events);
     
-    // Close modal
+    // Close modal if it exists
     closeModal();
+    
+    // Reset the form
+    event.target.reset();
     
     // Refresh events display
     populateEvents();
