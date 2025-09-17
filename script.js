@@ -479,8 +479,8 @@ const defaultEvents = [
         id: 1,
         title: "HOA Board Meeting",
         description: "Monthly board meeting to discuss community matters, budget updates, and resident concerns.",
-        startDate: "2024-03-15",
-        endDate: "2024-03-15",
+        startDate: "2025-01-15",
+        endDate: "2025-01-15",
         startTime: "19:00",
         endTime: "21:00",
         streetLocation: "Community Center",
@@ -491,8 +491,8 @@ const defaultEvents = [
         id: 2,
         title: "Spring Community Cleanup",
         description: "Join your neighbors for our annual spring cleanup. We'll provide supplies and refreshments.",
-        startDate: "2024-03-23",
-        endDate: "2024-03-23",
+        startDate: "2025-03-23",
+        endDate: "2025-03-23",
         startTime: "09:00",
         endTime: "12:00",
         streetLocation: "Main Park Area",
@@ -503,8 +503,8 @@ const defaultEvents = [
         id: 3,
         title: "Neighborhood Block Party",
         description: "Annual block party with food, games, and activities for the whole family. Bring a dish to share!",
-        startDate: "2024-04-06",
-        endDate: "2024-04-06",
+        startDate: "2025-04-06",
+        endDate: "2025-04-06",
         startTime: "16:00",
         endTime: "20:00",
         streetLocation: "Fox Creek Park",
@@ -515,8 +515,8 @@ const defaultEvents = [
         id: 4,
         title: "Architectural Review Meeting",
         description: "Review of pending architectural requests and exterior modification applications.",
-        startDate: "2024-04-12",
-        endDate: "2024-04-12",
+        startDate: "2025-04-12",
+        endDate: "2025-04-12",
         startTime: "18:30",
         endTime: "20:30",
         streetLocation: "Community Center",
@@ -527,11 +527,16 @@ const defaultEvents = [
 
 // Get events from localStorage or use defaults
 function getEvents() {
+    console.log('getEvents called');
     const savedEvents = localStorage.getItem('foxCreekEvents');
+    console.log('Saved events from localStorage:', savedEvents);
     if (savedEvents) {
-        return JSON.parse(savedEvents);
+        const parsed = JSON.parse(savedEvents);
+        console.log('Parsed events:', parsed);
+        return parsed;
     }
     // Save default events to localStorage
+    console.log('No saved events, using defaults');
     localStorage.setItem('foxCreekEvents', JSON.stringify(defaultEvents));
     return defaultEvents;
 }
@@ -635,13 +640,17 @@ function searchDirectory() {
 
 // Populate Events
 function populateEvents() {
+    console.log('populateEvents called');
     const grid = document.getElementById('events-grid');
+    console.log('Events grid found:', grid);
     if (!grid) return;
     
     const events = getEvents();
+    console.log('Events loaded:', events);
     grid.innerHTML = '';
     
     if (events.length === 0) {
+        console.log('No events found, showing empty state');
         grid.innerHTML = `
             <div class="events-empty">
                 <i class="fas fa-calendar-times"></i>
