@@ -527,16 +527,11 @@ const defaultEvents = [
 
 // Get events from localStorage or use defaults
 function getEvents() {
-    console.log('getEvents called');
     const savedEvents = localStorage.getItem('foxCreekEvents');
-    console.log('Saved events from localStorage:', savedEvents);
     if (savedEvents) {
-        const parsed = JSON.parse(savedEvents);
-        console.log('Parsed events:', parsed);
-        return parsed;
+        return JSON.parse(savedEvents);
     }
     // Save default events to localStorage
-    console.log('No saved events, using defaults');
     localStorage.setItem('foxCreekEvents', JSON.stringify(defaultEvents));
     return defaultEvents;
 }
@@ -640,17 +635,13 @@ function searchDirectory() {
 
 // Populate Events
 function populateEvents() {
-    console.log('populateEvents called');
     const grid = document.getElementById('events-grid');
-    console.log('Events grid found:', grid);
     if (!grid) return;
     
     const events = getEvents();
-    console.log('Events loaded:', events);
     grid.innerHTML = '';
     
     if (events.length === 0) {
-        console.log('No events found, showing empty state');
         grid.innerHTML = `
             <div class="events-empty">
                 <i class="fas fa-calendar-times"></i>
@@ -791,10 +782,8 @@ function initializeEventCreation() {
 }
 
 function showEventCreationForm() {
-    console.log('showEventCreationForm called');
     // Show the event creation form (assuming it's in a modal or section)
     const eventForm = document.getElementById('event-form');
-    console.log('Event form found:', eventForm);
     if (eventForm) {
         eventForm.scrollIntoView({ behavior: 'smooth' });
         // Focus on the first input
@@ -934,7 +923,6 @@ function closeModal() {
 }
 
 function handleEventCreation(event) {
-    console.log('handleEventCreation called');
     event.preventDefault();
     
     const formData = new FormData(event.target);
@@ -1218,7 +1206,9 @@ document.addEventListener('DOMContentLoaded', function() {
     populateResidents();
     
     // Populate events
-    populateEvents();
+    if (document.getElementById('events-grid')) {
+        populateEvents();
+    }
     
     // Initialize admin event management
     initializeAdminEventManagement();
