@@ -47,27 +47,48 @@
         <!-- Documents Section -->
         <section class="documents-section">
             <div class="container">
-                <div class="documents-grid">
-                    <div class="document-category">
+                <!-- Search Bar -->
+                <div class="documents-search">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="documents-search" placeholder="Search documents..." aria-label="Search documents">
+                        <button type="button" id="clear-search" class="clear-search" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="search-filters">
+                        <select id="category-filter">
+                            <option value="">All Categories</option>
+                            <option value="governing">Governing Documents</option>
+                            <option value="forms">Forms & Applications</option>
+                            <option value="financial">Financial Reports</option>
+                            <option value="meetings">Meeting Minutes</option>
+                            <option value="emergency">Emergency Procedures</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="documents-grid" id="documents-grid">
+                    <div class="document-category" data-category="governing">
                         <h3>Governing Documents</h3>
                         <ul class="document-list">
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> CC&Rs (Covenants, Conditions & Restrictions)</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Bylaws</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Articles of Incorporation</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Rules and Regulations</a></li>
+                            <li><a href="#" class="document-link" data-keywords="ccr covenants conditions restrictions governing"><i class="fas fa-download"></i> CC&Rs (Covenants, Conditions & Restrictions)</a></li>
+                            <li><a href="#" class="document-link" data-keywords="bylaws governing rules"><i class="fas fa-download"></i> Bylaws</a></li>
+                            <li><a href="#" class="document-link" data-keywords="articles incorporation governing"><i class="fas fa-download"></i> Articles of Incorporation</a></li>
+                            <li><a href="#" class="document-link" data-keywords="rules regulations governing"><i class="fas fa-download"></i> Rules and Regulations</a></li>
                         </ul>
                     </div>
-                    <div class="document-category">
+                    <div class="document-category" data-category="forms">
                         <h3>Forms & Applications</h3>
                         <ul class="document-list">
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Architectural Request Form</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Maintenance Request Form</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Parking Permit Application</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Guest Registration Form</a></li>
-                            <li><a href="#" class="document-link"><i class="fas fa-download"></i> Violation Appeal Form</a></li>
+                            <li><a href="#" class="document-link" data-keywords="architectural request form application"><i class="fas fa-download"></i> Architectural Request Form</a></li>
+                            <li><a href="#" class="document-link" data-keywords="maintenance request form application"><i class="fas fa-download"></i> Maintenance Request Form</a></li>
+                            <li><a href="#" class="document-link" data-keywords="parking permit application form"><i class="fas fa-download"></i> Parking Permit Application</a></li>
+                            <li><a href="#" class="document-link" data-keywords="guest registration form application"><i class="fas fa-download"></i> Guest Registration Form</a></li>
+                            <li><a href="#" class="document-link" data-keywords="violation appeal form application"><i class="fas fa-download"></i> Violation Appeal Form</a></li>
                         </ul>
                     </div>
-                    <div class="document-category">
+                    <div class="document-category" data-category="meetings">
                         <h3>Meeting Minutes</h3>
                         <ul class="document-list">
                             <li><a href="#" class="document-link"><i class="fas fa-download"></i> Board Meeting - March 2024</a></li>
@@ -77,7 +98,7 @@
                             <li><a href="#" class="document-link"><i class="fas fa-download"></i> Annual Meeting - November 2023</a></li>
                         </ul>
                     </div>
-                    <div class="document-category">
+                    <div class="document-category" data-category="financial">
                         <h3>Financial Reports</h3>
                         <ul class="document-list">
                             <li><a href="#" class="document-link"><i class="fas fa-download"></i> Budget 2024</a></li>

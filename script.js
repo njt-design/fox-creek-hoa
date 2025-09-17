@@ -958,6 +958,140 @@ function initializeAdminEventManagement() {
     initializeEventCreation();
 }
 
+// Documents Search Functionality
+function initializeDocumentsSearch() {
+    const searchInput = document.getElementById('documents-search');
+    const categoryFilter = document.getElementById('category-filter');
+    const clearSearchBtn = document.getElementById('clear-search');
+    const documentsGrid = document.getElementById('documents-grid');
+    
+    if (!searchInput || !categoryFilter || !documentsGrid) return;
+    
+    // Search functionality
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        const selectedCategory = categoryFilter.value;
+        
+        if (searchTerm) {
+            clearSearchBtn.style.display = 'block';
+        } else {
+            clearSearchBtn.style.display = 'none';
+        }
+        
+        filterDocuments(searchTerm, selectedCategory);
+    });
+    
+    // Category filter
+    categoryFilter.addEventListener('change', function() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedCategory = this.value;
+        filterDocuments(searchTerm, selectedCategory);
+    });
+    
+    // Clear search
+    clearSearchBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        categoryFilter.value = '';
+        this.style.display = 'none';
+        filterDocuments('', '');
+    });
+}
+
+function filterDocuments(searchTerm, selectedCategory) {
+    const documentsGrid = document.getElementById('documents-grid');
+    const categories = documentsGrid.querySelectorAll('.document-category');
+    const allLinks = documentsGrid.querySelectorAll('.document-link');
+    
+    let visibleCount = 0;
+    let hasResults = false;
+    
+    categories.forEach(category => {
+        const categoryName = category.getAttribute('data-category');
+        const links = category.querySelectorAll('.document-link');
+        let categoryHasResults = false;
+        
+        // Check if category matches filter
+        const categoryMatches = !selectedCategory || categoryName === selectedCategory;
+        
+        links.forEach(link => {
+            const linkText = link.textContent.toLowerCase();
+            const keywords = link.getAttribute('data-keywords') || '';
+            const keywordMatch = !searchTerm || keywords.includes(searchTerm) || linkText.includes(searchTerm);
+            
+            if (categoryMatches && keywordMatch) {
+                link.classList.remove('hidden');
+                categoryHasResults = true;
+                visibleCount++;
+            } else {
+                link.classList.add('hidden');
+            }
+        });
+        
+        if (categoryMatches && categoryHasResults) {
+            category.classList.remove('hidden');
+            hasResults = true;
+        } else {
+            category.classList.add('hidden');
+        }
+    });
+    
+    // Show/hide results info
+    updateSearchResultsInfo(visibleCount, searchTerm, selectedCategory);
+    
+    // Show no results message if needed
+    if (!hasResults) {
+        showNoResultsMessage(searchTerm, selectedCategory);
+    } else {
+        hideNoResultsMessage();
+    }
+}
+
+function updateSearchResultsInfo(count, searchTerm, selectedCategory) {
+    let existingInfo = document.querySelector('.search-results-info');
+    if (existingInfo) {
+        existingInfo.remove();
+    }
+    
+    if (searchTerm || selectedCategory) {
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'search-results-info';
+        
+        let message = `Found ${count} document${count !== 1 ? 's' : ''}`;
+        if (searchTerm) {
+            message += ` matching "${searchTerm}"`;
+        }
+        if (selectedCategory) {
+            const categoryName = document.querySelector(`option[value="${selectedCategory}"]`).textContent;
+            message += ` in ${categoryName}`;
+        }
+        
+        infoDiv.textContent = message;
+        document.getElementById('documents-grid').insertBefore(infoDiv, document.getElementById('documents-grid').firstChild);
+    }
+}
+
+function showNoResultsMessage(searchTerm, selectedCategory) {
+    let existingMessage = document.querySelector('.no-results');
+    if (existingMessage) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'no-results';
+    messageDiv.innerHTML = `
+        <i class="fas fa-search"></i>
+        <h3>No Documents Found</h3>
+        <p>Try adjusting your search terms or category filter.</p>
+    `;
+    
+    document.getElementById('documents-grid').appendChild(messageDiv);
+}
+
+function hideNoResultsMessage() {
+    const existingMessage = document.querySelector('.no-results');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     // Populate residents by default
@@ -968,6 +1102,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize admin event management
     initializeAdminEventManagement();
+    
+    // Initialize documents search
+    initializeDocumentsSearch();
     
     // Add search functionality to directory search input
     const searchInput = document.getElementById('directory-search');
