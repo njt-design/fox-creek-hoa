@@ -13,8 +13,8 @@
             --caribbean: #38686A;
             --ash-gray: #A3B4A2;
             --dun: #CDC6AE;
-            --primary-font: 'Arial', sans-serif;
-            --heading-font: 'Arial', sans-serif;
+            --primary-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --heading-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --base-font-size: 16px;
             --border-radius: 8px;
             --spacing-xs: 0.25rem;
@@ -408,7 +408,7 @@
             transform: translateY(-2px);
         }
         
-        .reset-btn {
+        .save-btn {
             background: var(--caribbean);
             color: white;
             padding: 1rem 2rem;
@@ -421,9 +421,54 @@
             font-size: var(--base-font-size);
         }
         
-        .reset-btn:hover {
+        .save-btn:hover {
             background: var(--rich-black);
             transform: translateY(-2px);
+        }
+        
+        .save-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .reset-btn {
+            background: #666;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-family: var(--primary-font);
+            font-size: var(--base-font-size);
+        }
+        
+        .reset-btn:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+        
+        .status-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
         
         @media (max-width: 768px) {
@@ -499,6 +544,7 @@
                     <label for="primary-font">Primary Font</label>
                     <select id="primary-font">
                         <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica Neue</option>
                         <option value="Helvetica, sans-serif">Helvetica</option>
                         <option value="Georgia, serif">Georgia</option>
                         <option value="Times New Roman, serif">Times New Roman</option>
@@ -510,6 +556,7 @@
                     <label for="heading-font">Heading Font</label>
                     <select id="heading-font">
                         <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica Neue</option>
                         <option value="Helvetica, sans-serif">Helvetica</option>
                         <option value="Georgia, serif">Georgia</option>
                         <option value="Times New Roman, serif">Times New Roman</option>
@@ -679,14 +726,18 @@
         
         <!-- Export Controls -->
         <div class="export-controls">
-            <h3><i class="fas fa-download"></i> Export & Apply Changes</h3>
-            <p>Export your updated styles and apply them to the website</p>
+            <h3><i class="fas fa-save"></i> Save & Apply Changes</h3>
+            <p>Save your changes directly to the website or export them for manual application</p>
+            <button class="save-btn" onclick="saveAllChanges()" id="saveBtn">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
             <button class="export-btn" onclick="exportStyles()">
                 <i class="fas fa-download"></i> Export CSS
             </button>
             <button class="reset-btn" onclick="resetStyles()">
                 <i class="fas fa-undo"></i> Reset to Default
             </button>
+            <div class="status-message" id="statusMessage"></div>
         </div>
     </div>
 
@@ -751,6 +802,82 @@
         document.getElementById('base-font-size').addEventListener('input', updateFontSizeDisplay);
         document.getElementById('border-radius').addEventListener('input', updateRadiusDisplay);
         
+        // Save all changes functionality - Updates CSS variables directly
+        function saveAllChanges() {
+            const saveBtn = document.getElementById('saveBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Disable button and show loading state
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            
+            try {
+                // Get current values
+                const richBlack = document.getElementById('rich-black').value;
+                const mauve = document.getElementById('mauve').value;
+                const caribbean = document.getElementById('caribbean').value;
+                const ashGray = document.getElementById('ash-gray').value;
+                const dun = document.getElementById('dun').value;
+                const primaryFont = document.getElementById('primary-font').value;
+                const headingFont = document.getElementById('heading-font').value;
+                const baseFontSize = document.getElementById('base-font-size').value;
+                const borderRadius = document.getElementById('border-radius').value;
+                
+                // Update CSS custom properties directly - this affects ALL pages instantly
+                updateCSSVariable('--rich-black', richBlack);
+                updateCSSVariable('--mauve', mauve);
+                updateCSSVariable('--caribbean', caribbean);
+                updateCSSVariable('--ash-gray', ashGray);
+                updateCSSVariable('--dun', dun);
+                updateCSSVariable('--primary-font', primaryFont);
+                updateCSSVariable('--heading-font', headingFont);
+                updateCSSVariable('--base-font-size', baseFontSize + 'px');
+                updateCSSVariable('--border-radius', borderRadius + 'px');
+                
+                // Save to localStorage for persistence across page reloads
+                const styleData = {
+                    richBlack: richBlack,
+                    mauve: mauve,
+                    caribbean: caribbean,
+                    ashGray: ashGray,
+                    dun: dun,
+                    primaryFont: primaryFont,
+                    headingFont: headingFont,
+                    baseFontSize: baseFontSize,
+                    borderRadius: borderRadius,
+                    timestamp: new Date().toISOString()
+                };
+                
+                localStorage.setItem('foxCreekStyles', JSON.stringify(styleData));
+                
+                // Show success message
+                statusMessage.className = 'status-message status-success';
+                statusMessage.innerHTML = '✅ Changes saved successfully! All pages have been updated with your new styles.';
+                statusMessage.style.display = 'block';
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+                
+            } catch (error) {
+                console.error('Save error:', error);
+                // Show error message
+                statusMessage.className = 'status-message status-error';
+                statusMessage.innerHTML = '❌ Error saving changes. Please try again.';
+                statusMessage.style.display = 'block';
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            } finally {
+                // Re-enable button
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save All Changes';
+            }
+        }
+        
         // Export functionality
         function exportStyles() {
             const styles = `
@@ -791,8 +918,8 @@
             document.getElementById('caribbean').value = '#38686A';
             document.getElementById('ash-gray').value = '#A3B4A2';
             document.getElementById('dun').value = '#CDC6AE';
-            document.getElementById('primary-font').value = 'Arial, sans-serif';
-            document.getElementById('heading-font').value = 'Arial, sans-serif';
+            document.getElementById('primary-font').value = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+            document.getElementById('heading-font').value = "'Helvetica Neue', Helvetica, Arial, sans-serif";
             document.getElementById('base-font-size').value = '16';
             document.getElementById('border-radius').value = '8';
             
@@ -802,8 +929,8 @@
             updateCSSVariable('--caribbean', '#38686A');
             updateCSSVariable('--ash-gray', '#A3B4A2');
             updateCSSVariable('--dun', '#CDC6AE');
-            updateCSSVariable('--primary-font', 'Arial, sans-serif');
-            updateCSSVariable('--heading-font', 'Arial, sans-serif');
+            updateCSSVariable('--primary-font', "'Helvetica Neue', Helvetica, Arial, sans-serif");
+            updateCSSVariable('--heading-font', "'Helvetica Neue', Helvetica, Arial, sans-serif");
             updateCSSVariable('--base-font-size', '16px');
             updateCSSVariable('--border-radius', '8px');
             
@@ -817,9 +944,53 @@
             updateRadiusDisplay();
         }
         
-        // Initialize displays
+        // Load saved styles from localStorage
+        function loadSavedStyles() {
+            try {
+                const savedStyles = localStorage.getItem('foxCreekStyles');
+                if (savedStyles) {
+                    const styleData = JSON.parse(savedStyles);
+                    
+                    // Update form controls
+                    document.getElementById('rich-black').value = styleData.richBlack;
+                    document.getElementById('mauve').value = styleData.mauve;
+                    document.getElementById('caribbean').value = styleData.caribbean;
+                    document.getElementById('ash-gray').value = styleData.ashGray;
+                    document.getElementById('dun').value = styleData.dun;
+                    document.getElementById('primary-font').value = styleData.primaryFont;
+                    document.getElementById('heading-font').value = styleData.headingFont;
+                    document.getElementById('base-font-size').value = styleData.baseFontSize;
+                    document.getElementById('border-radius').value = styleData.borderRadius;
+                    
+                    // Update CSS variables
+                    updateCSSVariable('--rich-black', styleData.richBlack);
+                    updateCSSVariable('--mauve', styleData.mauve);
+                    updateCSSVariable('--caribbean', styleData.caribbean);
+                    updateCSSVariable('--ash-gray', styleData.ashGray);
+                    updateCSSVariable('--dun', styleData.dun);
+                    updateCSSVariable('--primary-font', styleData.primaryFont);
+                    updateCSSVariable('--heading-font', styleData.headingFont);
+                    updateCSSVariable('--base-font-size', styleData.baseFontSize + 'px');
+                    updateCSSVariable('--border-radius', styleData.borderRadius + 'px');
+                    
+                    // Update displays
+                    updateColorDisplay('rich-black', styleData.richBlack);
+                    updateColorDisplay('mauve', styleData.mauve);
+                    updateColorDisplay('caribbean', styleData.caribbean);
+                    updateColorDisplay('ash-gray', styleData.ashGray);
+                    updateColorDisplay('dun', styleData.dun);
+                    updateFontSizeDisplay();
+                    updateRadiusDisplay();
+                }
+            } catch (error) {
+                console.error('Error loading saved styles:', error);
+            }
+        }
+        
+        // Initialize displays and load saved styles
         updateFontSizeDisplay();
         updateRadiusDisplay();
+        loadSavedStyles();
     </script>
 </body>
 </html>

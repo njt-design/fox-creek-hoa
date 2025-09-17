@@ -1,3 +1,21 @@
+/* CSS Custom Properties - Updated by Style Guide */
+:root {
+    --rich-black: #0D1321;
+    --mauve: #BAA5FF;
+    --caribbean: #38686A;
+    --ash-gray: #A3B4A2;
+    --dun: #CDC6AE;
+    --primary-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --heading-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --base-font-size: 16px;
+    --border-radius: 8px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -20,7 +38,7 @@
 
 /* Focus Management */
 *:focus {
-    outline: 2px solid #2c2c2c;
+    outline: 2px solid var(--rich-black);
     outline-offset: 2px;
 }
 
@@ -362,25 +380,26 @@ body {
     display: inline-block;
     padding: 16px 32px;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-weight: 300;
     transition: all 0.3s ease;
-    border: 1px solid #2c2c2c;
+    border: 1px solid var(--caribbean);
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: var(--base-font-size);
     letter-spacing: 0.02em;
+    font-family: var(--primary-font);
     text-transform: uppercase;
 }
 
 .btn-primary {
-    background: #2c2c2c;
+    background: var(--caribbean);
     color: white;
-    border: 1px solid #2c2c2c;
+    border: 1px solid var(--caribbean);
 }
 
 .btn-primary:hover {
     background: transparent;
-    color: #2c2c2c;
+    color: var(--caribbean);
     transform: translateY(-2px);
 }
 
