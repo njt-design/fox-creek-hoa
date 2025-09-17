@@ -529,7 +529,12 @@ const defaultEvents = [
 function getEvents() {
     const savedEvents = localStorage.getItem('foxCreekEvents');
     if (savedEvents) {
-        return JSON.parse(savedEvents);
+        try {
+            return JSON.parse(savedEvents);
+        } catch (error) {
+            console.error('Error parsing saved events:', error);
+            localStorage.removeItem('foxCreekEvents');
+        }
     }
     // Save default events to localStorage
     localStorage.setItem('foxCreekEvents', JSON.stringify(defaultEvents));
@@ -538,7 +543,12 @@ function getEvents() {
 
 // Save events to localStorage
 function saveEvents(events) {
-    localStorage.setItem('foxCreekEvents', JSON.stringify(events));
+    try {
+        localStorage.setItem('foxCreekEvents', JSON.stringify(events));
+        console.log('Events saved successfully');
+    } catch (error) {
+        console.error('Error saving events:', error);
+    }
 }
 
 // Directory Functions
@@ -636,9 +646,13 @@ function searchDirectory() {
 // Populate Events
 function populateEvents() {
     const grid = document.getElementById('events-grid');
-    if (!grid) return;
+    if (!grid) {
+        console.log('Events grid not found on this page');
+        return;
+    }
     
     const events = getEvents();
+    console.log('Loading events:', events.length);
     grid.innerHTML = '';
     
     if (events.length === 0) {
@@ -659,6 +673,8 @@ function populateEvents() {
         const eventCard = createEventCard(event);
         grid.appendChild(eventCard);
     });
+    
+    console.log('Events populated successfully');
 }
 
 // Create Event Card Component
@@ -939,16 +955,16 @@ function handleEventCreation(event) {
         created: new Date().toISOString()
     };
     
-    console.log('Event data:', eventData);
+    console.log('Creating event:', eventData);
     
     // Validate required fields
-    if (!eventData.title || !eventData.description || !eventData.startDate || !eventData.endDate || !eventData.startTime || !eventData.endTime || !eventData.streetLocation) {
-        alert('Please fill in all required fields.');
+    if (!eventData.title || !eventData.startDate || !eventData.streetLocation) {
+        alert('Please fill in all required fields (Title, Start Date, Location)');
         return;
     }
     
-    // Validate dates
-    if (new Date(eventData.startDate) > new Date(eventData.endDate)) {
+    // Validate dates if both are provided
+    if (eventData.endDate && new Date(eventData.startDate) > new Date(eventData.endDate)) {
         alert('End date must be after start date.');
         return;
     }
@@ -969,6 +985,7 @@ function handleEventCreation(event) {
     
     // Show success message
     alert(`Event "${eventData.title}" created successfully!`);
+    console.log('Event creation completed');
 }
 
 // Add event management to admin dashboard
@@ -1205,10 +1222,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Populate residents by default
     populateResidents();
     
-    // Populate events
-    if (document.getElementById('events-grid')) {
-        populateEvents();
-    }
+    // Populate events - always try to populate
+    populateEvents();
     
     // Initialize admin event management
     initializeAdminEventManagement();

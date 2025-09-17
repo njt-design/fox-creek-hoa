@@ -1059,6 +1059,9 @@ body {
     text-align: center;
     padding: 4rem 2rem;
     color: #666;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .events-empty i {
@@ -1080,19 +1083,27 @@ body {
     font-family: var(--primary-font);
 }
 
+/* Events Grid Layout */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
 /* Mobile Responsive for Events */
 @media (max-width: 768px) {
     .events-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1rem;
     }
     
     .event-card {
-        padding: 1.5rem;
+        padding: 1rem;
     }
     
     .event-title {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
     
     .event-actions {
