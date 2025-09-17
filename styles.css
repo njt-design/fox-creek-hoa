@@ -1588,6 +1588,32 @@ body {
     }
 }
 
+/* No Residents State */
+.no-residents {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+    grid-column: 1 / -1;
+}
+
+.no-residents i {
+    font-size: 3rem;
+    color: var(--ash-gray);
+    margin-bottom: 1rem;
+}
+
+.no-residents h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--rich-black);
+    font-family: var(--heading-font);
+}
+
+.no-residents p {
+    font-size: 1.1rem;
+    font-family: var(--primary-font);
+}
+
 .event-card {
     background: #ffffff;
     padding: 2rem;

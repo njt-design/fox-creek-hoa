@@ -569,17 +569,32 @@ function showTab(tabName) {
 
 function populateResidents() {
     const list = document.getElementById('residents-list');
+    if (!list) return;
+    
+    const residents = getResidents();
     list.innerHTML = '';
+    
+    if (residents.length === 0) {
+        list.innerHTML = `
+            <div class="no-residents">
+                <i class="fas fa-users"></i>
+                <h3>No Residents Yet</h3>
+                <p>Add residents to the directory to get started.</p>
+            </div>
+        `;
+        return;
+    }
     
     residents.forEach(resident => {
         const card = document.createElement('div');
         card.className = 'resident-card';
         card.innerHTML = `
-            <div class="resident-photo">${resident.photo}</div>
+            <div class="resident-photo">${resident.photo || '<i class="fas fa-user"></i>'}</div>
             <div class="resident-info">
                 <div class="resident-name">${resident.name}</div>
-                <div class="resident-street">${resident.street}</div>
+                <div class="resident-street">${resident.address || resident.street}</div>
                 ${resident.business ? `<div class="resident-business">${resident.business}</div>` : ''}
+                ${resident.skills ? `<div class="resident-skills">${resident.skills}</div>` : ''}
             </div>
         `;
         list.appendChild(card);
@@ -958,6 +973,96 @@ function initializeAdminEventManagement() {
     initializeEventCreation();
 }
 
+// Resident Management Functions
+function showResidentForm() {
+    const residentForm = document.getElementById('resident-form');
+    if (residentForm) {
+        residentForm.style.display = 'block';
+        residentForm.scrollIntoView({ behavior: 'smooth' });
+        // Focus on first input
+        const firstInput = residentForm.querySelector('input[type="text"]');
+        if (firstInput) {
+            firstInput.focus();
+        }
+    }
+}
+
+function hideResidentForm() {
+    const residentForm = document.getElementById('resident-form');
+    if (residentForm) {
+        residentForm.style.display = 'none';
+        // Reset form
+        document.getElementById('resident-creation-form').reset();
+    }
+}
+
+function initializeResidentManagement() {
+    const residentForm = document.getElementById('resident-creation-form');
+    if (residentForm) {
+        residentForm.addEventListener('submit', handleResidentCreation);
+    }
+}
+
+function handleResidentCreation(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const residentData = {
+        id: Date.now(),
+        name: formData.get('name'),
+        email: formData.get('email'),
+        address: formData.get('address'),
+        phone: formData.get('phone'),
+        bio: formData.get('bio'),
+        skills: formData.get('skills'),
+        business: formData.get('business'),
+        businessDesc: formData.get('businessDesc'),
+        created: new Date().toISOString()
+    };
+    
+    // Validate required fields
+    if (!residentData.name || !residentData.email || !residentData.address) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(residentData.email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+    
+    // Get existing residents and add new one
+    const residents = getResidents();
+    residents.push(residentData);
+    saveResidents(residents);
+    
+    // Hide form
+    hideResidentForm();
+    
+    // Refresh residents display
+    populateResidents();
+    
+    // Show success message
+    alert(`Resident "${residentData.name}" added successfully!`);
+}
+
+// Get residents from localStorage or use defaults
+function getResidents() {
+    const savedResidents = localStorage.getItem('foxCreekResidents');
+    if (savedResidents) {
+        return JSON.parse(savedResidents);
+    }
+    // Return default residents (from the existing residents array)
+    return residents;
+}
+
+// Save residents to localStorage
+function saveResidents(residents) {
+    localStorage.setItem('foxCreekResidents', JSON.stringify(residents));
+}
+
 // Documents Search Functionality
 function initializeDocumentsSearch() {
     const searchInput = document.getElementById('documents-search');
@@ -1102,6 +1207,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize admin event management
     initializeAdminEventManagement();
+    
+    // Initialize resident management
+    initializeResidentManagement();
     
     // Initialize documents search
     initializeDocumentsSearch();
