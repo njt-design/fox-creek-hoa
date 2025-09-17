@@ -473,37 +473,73 @@ const businesses = [
     }
 ];
 
-// Events Data
-const events = [
+// Events Data - Default events
+const defaultEvents = [
     {
+        id: 1,
         title: "HOA Board Meeting",
-        date: "March 15, 2024",
-        time: "7:00 PM",
-        location: "Community Center",
-        description: "Monthly board meeting to discuss community matters, budget updates, and resident concerns."
+        description: "Monthly board meeting to discuss community matters, budget updates, and resident concerns.",
+        startDate: "2024-03-15",
+        endDate: "2024-03-15",
+        startTime: "19:00",
+        endTime: "21:00",
+        streetLocation: "Community Center",
+        status: "upcoming",
+        created: new Date().toISOString()
     },
     {
+        id: 2,
         title: "Spring Community Cleanup",
-        date: "March 23, 2024",
-        time: "9:00 AM - 12:00 PM",
-        location: "Main Park Area",
-        description: "Join your neighbors for our annual spring cleanup. We'll provide supplies and refreshments."
+        description: "Join your neighbors for our annual spring cleanup. We'll provide supplies and refreshments.",
+        startDate: "2024-03-23",
+        endDate: "2024-03-23",
+        startTime: "09:00",
+        endTime: "12:00",
+        streetLocation: "Main Park Area",
+        status: "upcoming",
+        created: new Date().toISOString()
     },
     {
+        id: 3,
         title: "Neighborhood Block Party",
-        date: "April 6, 2024",
-        time: "4:00 PM - 8:00 PM",
-        location: "Fox Creek Park",
-        description: "Annual block party with food, games, and activities for the whole family. Bring a dish to share!"
+        description: "Annual block party with food, games, and activities for the whole family. Bring a dish to share!",
+        startDate: "2024-04-06",
+        endDate: "2024-04-06",
+        startTime: "16:00",
+        endTime: "20:00",
+        streetLocation: "Fox Creek Park",
+        status: "upcoming",
+        created: new Date().toISOString()
     },
     {
+        id: 4,
         title: "Architectural Review Meeting",
-        date: "April 12, 2024",
-        time: "6:30 PM",
-        location: "Community Center",
-        description: "Review of pending architectural requests and exterior modification applications."
+        description: "Review of pending architectural requests and exterior modification applications.",
+        startDate: "2024-04-12",
+        endDate: "2024-04-12",
+        startTime: "18:30",
+        endTime: "20:30",
+        streetLocation: "Community Center",
+        status: "upcoming",
+        created: new Date().toISOString()
     }
 ];
+
+// Get events from localStorage or use defaults
+function getEvents() {
+    const savedEvents = localStorage.getItem('foxCreekEvents');
+    if (savedEvents) {
+        return JSON.parse(savedEvents);
+    }
+    // Save default events to localStorage
+    localStorage.setItem('foxCreekEvents', JSON.stringify(defaultEvents));
+    return defaultEvents;
+}
+
+// Save events to localStorage
+function saveEvents(events) {
+    localStorage.setItem('foxCreekEvents', JSON.stringify(events));
+}
 
 // Directory Functions
 function showTab(tabName) {
@@ -585,19 +621,334 @@ function searchDirectory() {
 // Populate Events
 function populateEvents() {
     const grid = document.getElementById('events-grid');
+    if (!grid) return;
+    
+    const events = getEvents();
     grid.innerHTML = '';
     
-    events.forEach(event => {
-        const eventCard = document.createElement('div');
-        eventCard.className = 'event-card';
-        eventCard.innerHTML = `
-            <h4>${event.title}</h4>
-            <p class="event-date">${event.date} at ${event.time}</p>
-            <p class="event-location">📍 ${event.location}</p>
-            <p class="event-description">${event.description}</p>
+    if (events.length === 0) {
+        grid.innerHTML = `
+            <div class="events-empty">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Events Scheduled</h3>
+                <p>Check back soon for upcoming community events!</p>
+            </div>
         `;
+        return;
+    }
+    
+    // Sort events by start date
+    const sortedEvents = events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    
+    sortedEvents.forEach(event => {
+        const eventCard = createEventCard(event);
         grid.appendChild(eventCard);
     });
+}
+
+// Create Event Card Component
+function createEventCard(event) {
+    const eventCard = document.createElement('div');
+    eventCard.className = 'event-card';
+    
+    // Determine event status
+    const now = new Date();
+    const startDate = new Date(event.startDate + 'T' + event.startTime);
+    const endDate = new Date(event.endDate + 'T' + event.endTime);
+    
+    let status = 'upcoming';
+    if (now >= startDate && now <= endDate) {
+        status = 'ongoing';
+    } else if (now > endDate) {
+        status = 'past';
+    }
+    
+    // Format date range
+    const startDateFormatted = startDate.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
+    const startTimeFormatted = startDate.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+    });
+    
+    const endTimeFormatted = endDate.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+    });
+    
+    const timeRange = startTimeFormatted === endTimeFormatted ? 
+        startTimeFormatted : 
+        `${startTimeFormatted} - ${endTimeFormatted}`;
+    
+    eventCard.innerHTML = `
+        <div class="event-status ${status}">${status}</div>
+        <h3 class="event-title">${event.title}</h3>
+        <p class="event-description">${event.description}</p>
+        
+        <div class="event-details">
+            <div class="event-detail">
+                <i class="fas fa-calendar-alt"></i>
+                <span>${startDateFormatted}</span>
+            </div>
+            <div class="event-detail">
+                <i class="fas fa-clock"></i>
+                <span>${timeRange}</span>
+            </div>
+            <div class="event-detail">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${event.streetLocation}</span>
+            </div>
+        </div>
+        
+        <div class="event-actions">
+            <button class="event-btn event-btn-primary" onclick="viewEventDetails(${event.id})">
+                <i class="fas fa-info-circle"></i>
+                View Details
+            </button>
+            <button class="event-btn event-btn-secondary" onclick="addToCalendar(${event.id})">
+                <i class="fas fa-calendar-plus"></i>
+                Add to Calendar
+            </button>
+        </div>
+    `;
+    
+    return eventCard;
+}
+
+// View Event Details
+function viewEventDetails(eventId) {
+    const events = getEvents();
+    const event = events.find(e => e.id === eventId);
+    if (event) {
+        alert(`Event Details:\n\n${event.title}\n\n${event.description}\n\nDate: ${event.startDate}\nTime: ${event.startTime} - ${event.endTime}\nLocation: ${event.streetLocation}`);
+    }
+}
+
+// Add to Calendar (placeholder)
+function addToCalendar(eventId) {
+    const events = getEvents();
+    const event = events.find(e => e.id === eventId);
+    if (event) {
+        // Create calendar event data
+        const startDateTime = new Date(event.startDate + 'T' + event.startTime);
+        const endDateTime = new Date(event.endDate + 'T' + event.endTime);
+        
+        const calendarData = {
+            title: event.title,
+            description: event.description,
+            location: event.streetLocation,
+            start: startDateTime.toISOString(),
+            end: endDateTime.toISOString()
+        };
+        
+        // For now, just show a message
+        alert(`Adding "${event.title}" to your calendar...\n\nThis feature will integrate with your device's calendar app.`);
+    }
+}
+
+// Admin Event Management Functions
+function initializeEventCreation() {
+    const createEventBtn = document.querySelector('button[onclick*="Create Event"]');
+    if (createEventBtn) {
+        createEventBtn.onclick = showEventCreationForm;
+    }
+    
+    const eventForm = document.getElementById('event-form');
+    if (eventForm) {
+        eventForm.addEventListener('submit', handleEventCreation);
+    }
+}
+
+function showEventCreationForm() {
+    // Show the event creation form (assuming it's in a modal or section)
+    const eventForm = document.getElementById('event-form');
+    if (eventForm) {
+        eventForm.style.display = 'block';
+        eventForm.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        // If no form exists, create a simple modal
+        createEventModal();
+    }
+}
+
+function createEventModal() {
+    // Create a modal for event creation
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Event</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="event-creation-form">
+                <div class="form-group">
+                    <label for="event-title">Event Title *</label>
+                    <input type="text" id="event-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Description *</label>
+                    <textarea id="event-description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-start-date">Start Date *</label>
+                        <input type="date" id="event-start-date" name="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-end-date">End Date *</label>
+                        <input type="date" id="event-end-date" name="endDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-start-time">Start Time *</label>
+                        <input type="time" id="event-start-time" name="startTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-end-time">End Time *</label>
+                        <input type="time" id="event-end-time" name="endTime" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="event-location">Street Location *</label>
+                    <input type="text" id="event-location" name="streetLocation" placeholder="e.g., Walnut Street, Community Center" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Event</button>
+                </div>
+            </form>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add modal styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .modal {
+            display: block;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .modal-header h3 {
+            margin: 0;
+            color: var(--rich-black);
+        }
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+        .close:hover {
+            color: var(--rich-black);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        #event-creation-form {
+            padding: 1.5rem;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Handle form submission
+    document.getElementById('event-creation-form').addEventListener('submit', handleEventCreation);
+}
+
+function closeModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function handleEventCreation(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const eventData = {
+        id: Date.now(), // Simple ID generation
+        title: formData.get('title'),
+        description: formData.get('description'),
+        startDate: formData.get('startDate'),
+        endDate: formData.get('endDate'),
+        startTime: formData.get('startTime'),
+        endTime: formData.get('endTime'),
+        streetLocation: formData.get('streetLocation'),
+        status: 'upcoming',
+        created: new Date().toISOString()
+    };
+    
+    // Validate required fields
+    if (!eventData.title || !eventData.description || !eventData.startDate || !eventData.endDate || !eventData.startTime || !eventData.endTime || !eventData.streetLocation) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    // Validate dates
+    if (new Date(eventData.startDate) > new Date(eventData.endDate)) {
+        alert('End date must be after start date.');
+        return;
+    }
+    
+    // Get existing events and add new one
+    const events = getEvents();
+    events.push(eventData);
+    saveEvents(events);
+    
+    // Close modal
+    closeModal();
+    
+    // Refresh events display
+    populateEvents();
+    
+    // Show success message
+    alert(`Event "${eventData.title}" created successfully!`);
+}
+
+// Add event management to admin dashboard
+function initializeAdminEventManagement() {
+    initializeEventCreation();
 }
 
 // Initialize the page
@@ -607,6 +958,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Populate events
     populateEvents();
+    
+    // Initialize admin event management
+    initializeAdminEventManagement();
     
     // Add search functionality to directory search input
     const searchInput = document.getElementById('directory-search');
