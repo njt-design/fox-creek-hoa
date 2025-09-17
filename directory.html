@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neighbors - Fox Creek HOA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <meta name="description" content="Fox Creek HOA Resident Directory - Find your neighbors and local businesses in our community.">
+    <meta name="keywords" content="HOA, residents, directory, neighbors, Fox Creek, community">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <h2>Fox Creek HOA</h2>
+                    </a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="documents.html" class="nav-link">Documents</a>
+                    <a href="directory.html" class="nav-link active">Neighbors</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="payment.html" class="nav-link">Pay Dues</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header directory">
+            <div class="container">
+                <h1>Neighbors</h1>
+                <p>Meet your neighbors and local businesses</p>
+            </div>
+        </section>
+
+        <!-- Directory Section -->
+        <section class="directory-section">
+            <div class="container">
+                <!-- Bio Preview Section -->
+                <div class="bio-previews">
+                    <div class="bio-preview-card">
+                        <div class="bio-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Nick Throckmorton">
+                        </div>
+                        <div class="bio-details">
+                            <h3 class="bio-name">Nick Throckmorton</h3>
+                            <p class="bio-address">33048 Walnut Pl.</p>
+                            <p class="bio-email">webguy@fcoa.board</p>
+                            <p class="bio-skills">Sensory UX, Hy-Vee</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bio-preview-card">
+                        <div class="bio-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face" alt="Sarah Johnson">
+                        </div>
+                        <div class="bio-details">
+                            <h3 class="bio-name">Sarah Johnson</h3>
+                            <p class="bio-address">33052 Oak Street</p>
+                            <p class="bio-email">sarah.j@email.com</p>
+                            <p class="bio-skills">Marketing Director, Local Bank</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bio-preview-card">
+                        <div class="bio-avatar">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Mike Chen">
+                        </div>
+                        <div class="bio-details">
+                            <h3 class="bio-name">Mike Chen</h3>
+                            <p class="bio-address">33045 Pine Avenue</p>
+                            <p class="bio-email">mike.chen@tech.com</p>
+                            <p class="bio-skills">Software Engineer, Tech Corp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Businesses Section -->
+                <div class="businesses-section">
+                    <h2 class="section-title">Local Businesses</h2>
+                    <div class="businesses-grid">
+                        <div class="business-card">
+                            <div class="business-logo">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="business-details">
+                                <h3 class="business-name">Fox Creek Market</h3>
+                                <p class="business-address">123 Main Street</p>
+                                <p class="business-phone">(555) 123-4567</p>
+                                <p class="business-type">Grocery Store</p>
+                            </div>
+                        </div>
+                        
+                        <div class="business-card">
+                            <div class="business-logo">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="business-details">
+                                <h3 class="business-name">Handy Home Services</h3>
+                                <p class="business-address">456 Oak Avenue</p>
+                                <p class="business-phone">(555) 234-5678</p>
+                                <p class="business-type">Home Maintenance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="business-card">
+                            <div class="business-logo">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="business-details">
+                                <h3 class="business-name">Neighborhood Auto</h3>
+                                <p class="business-address">789 Pine Street</p>
+                                <p class="business-phone">(555) 345-6789</p>
+                                <p class="business-type">Auto Repair</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="residents-list" id="residents-list">
+                    <!-- Residents will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="container">
+                <h2>Stay Connected</h2>
+                <p>Get the latest updates and news from your HOA</p>
+                <form class="newsletter-form" id="newsletter-form" role="form" aria-label="Newsletter subscription">
+                    <div class="form-group">
+                        <label for="newsletter-email" class="sr-only">Email address for newsletter subscription</label>
+                        <input type="email" id="newsletter-email" name="email" placeholder="Enter your email address" required aria-describedby="newsletter-message" autocomplete="email">
+                        <button type="submit" class="btn btn-newsletter" aria-describedby="newsletter-message">SUBSCRIBE</button>
+                    </div>
+                    <div class="form-message" id="newsletter-message" role="status" aria-live="polite"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fox Creek HOA</h3>
+                    <p>Building community, one home at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="documents.html">Documents</a></li>
+                        <li><a href="directory.html">Neighbors</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="payment.html">Pay Dues</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>info@foxcreekhoa.com</p>
+                    <p>(555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fox Creek HOA. All rights reserved. <a href="admin.html" style="color: #2c2c2c; text-decoration: none; opacity: 0.1; font-size: 0.8rem;">admin</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

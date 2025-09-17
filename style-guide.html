@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Style Guide - Fox Creek HOA Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --rich-black: #0D1321;
+            --mauve: #BAA5FF;
+            --caribbean: #38686A;
+            --ash-gray: #A3B4A2;
+            --dun: #CDC6AE;
+            --primary-font: 'Arial', sans-serif;
+            --heading-font: 'Arial', sans-serif;
+            --base-font-size: 16px;
+            --border-radius: 8px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+        }
+        
+        .style-guide-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .style-guide-header {
+            background: var(--rich-black);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .style-guide-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-family: var(--heading-font);
+        }
+        
+        .style-guide-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .editing-controls {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid var(--mauve);
+        }
+        
+        .editing-controls h3 {
+            color: var(--rich-black);
+            margin-bottom: 1rem;
+            font-family: var(--heading-font);
+        }
+        
+        .control-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-item label {
+            font-weight: 600;
+            color: var(--rich-black);
+            font-size: 0.9rem;
+        }
+        
+        .control-item input,
+        .control-item select {
+            padding: 0.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .control-item input:focus,
+        .control-item select:focus {
+            outline: none;
+            border-color: var(--caribbean);
+        }
+        
+        .color-input {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .style-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--rich-black);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--caribbean);
+            font-family: var(--heading-font);
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .color-card {
+            text-align: center;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            color: white;
+            font-weight: 600;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .color-card.rich-black { background: var(--rich-black); }
+        .color-card.mauve { background: var(--mauve); color: var(--rich-black); }
+        .color-card.caribbean { background: var(--caribbean); }
+        .color-card.ash-gray { background: var(--ash-gray); color: var(--rich-black); }
+        .color-card.dun { background: var(--dun); color: var(--rich-black); }
+        
+        .color-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .color-hex {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .live-preview {
+            background: var(--dun);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            border: 2px solid var(--ash-gray);
+        }
+        
+        .preview-title {
+            color: var(--rich-black);
+            font-family: var(--heading-font);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .preview-text {
+            color: var(--rich-black);
+            font-family: var(--primary-font);
+            font-size: var(--base-font-size);
+            line-height: 1.5;
+        }
+        
+        .button-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .button-demo {
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+        }
+        
+        .button-demo h4 {
+            margin-bottom: 1rem;
+            color: var(--rich-black);
+            font-family: var(--heading-font);
+        }
+        
+        .btn-primary, .btn-secondary, .btn-ghost, .btn-newsletter {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.25rem;
+            font-family: var(--primary-font);
+            font-size: var(--base-font-size);
+        }
+        
+        .btn-primary {
+            background: var(--caribbean);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--rich-black);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--ash-gray);
+            color: var(--rich-black);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--dun);
+            transform: translateY(-2px);
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            color: var(--caribbean);
+            border: 2px solid var(--caribbean);
+        }
+        
+        .btn-ghost:hover {
+            background: var(--caribbean);
+            color: white;
+        }
+        
+        .btn-newsletter {
+            background: var(--mauve);
+            color: var(--rich-black);
+        }
+        
+        .btn-newsletter:hover {
+            background: var(--ash-gray);
+            transform: translateY(-2px);
+        }
+        
+        .form-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .form-demo {
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+        }
+        
+        .form-demo h4 {
+            margin-bottom: 1rem;
+            color: var(--rich-black);
+            font-family: var(--heading-font);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--rich-black);
+            font-weight: 600;
+            font-family: var(--primary-font);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: var(--base-font-size);
+            transition: border-color 0.3s ease;
+            font-family: var(--primary-font);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--caribbean);
+        }
+        
+        .card-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .card-demo {
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            background: white;
+        }
+        
+        .card-demo h4 {
+            color: var(--rich-black);
+            margin-bottom: 1rem;
+            font-family: var(--heading-font);
+        }
+        
+        .card-demo p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-family: var(--primary-font);
+        }
+        
+        .spacing-examples {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .spacing-demo {
+            background: var(--mauve);
+            color: var(--rich-black);
+            font-weight: 600;
+            text-align: center;
+            border-radius: 4px;
+            font-family: var(--primary-font);
+        }
+        
+        .spacing-xs { padding: var(--spacing-xs); }
+        .spacing-sm { padding: var(--spacing-sm); }
+        .spacing-md { padding: var(--spacing-md); }
+        .spacing-lg { padding: var(--spacing-lg); }
+        .spacing-xl { padding: var(--spacing-xl); }
+        
+        .back-to-admin {
+            display: inline-block;
+            background: var(--rich-black);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-family: var(--primary-font);
+        }
+        
+        .back-to-admin:hover {
+            background: var(--caribbean);
+            transform: translateY(-2px);
+        }
+        
+        .back-to-admin i {
+            margin-right: 0.5rem;
+        }
+        
+        .export-controls {
+            background: var(--rich-black);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .export-controls h3 {
+            margin-bottom: 1rem;
+            font-family: var(--heading-font);
+        }
+        
+        .export-btn {
+            background: var(--mauve);
+            color: var(--rich-black);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-family: var(--primary-font);
+            font-size: var(--base-font-size);
+        }
+        
+        .export-btn:hover {
+            background: var(--ash-gray);
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background: var(--caribbean);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-family: var(--primary-font);
+            font-size: var(--base-font-size);
+        }
+        
+        .reset-btn:hover {
+            background: var(--rich-black);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .style-guide-container {
+                padding: 1rem;
+            }
+            
+            .style-guide-header h1 {
+                font-size: 2rem;
+            }
+            
+            .control-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .color-palette {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-examples {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-examples {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-examples {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="style-guide-container">
+        <a href="admin.html" class="back-to-admin">
+            <i class="fas fa-arrow-left"></i>
+            Back to Admin Dashboard
+        </a>
+        
+        <div class="style-guide-header">
+            <h1>Interactive Style Guide</h1>
+            <p>Edit colors, typography, and spacing in real-time</p>
+        </div>
+        
+        <!-- Live Editing Controls -->
+        <div class="editing-controls">
+            <h3><i class="fas fa-edit"></i> Live Editing Controls</h3>
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="rich-black">Rich Black</label>
+                    <input type="color" id="rich-black" class="color-input" value="#0D1321">
+                </div>
+                <div class="control-item">
+                    <label for="mauve">Mauve</label>
+                    <input type="color" id="mauve" class="color-input" value="#BAA5FF">
+                </div>
+                <div class="control-item">
+                    <label for="caribbean">Caribbean Current</label>
+                    <input type="color" id="caribbean" class="color-input" value="#38686A">
+                </div>
+                <div class="control-item">
+                    <label for="ash-gray">Ash Gray</label>
+                    <input type="color" id="ash-gray" class="color-input" value="#A3B4A2">
+                </div>
+                <div class="control-item">
+                    <label for="dun">Dun</label>
+                    <input type="color" id="dun" class="color-input" value="#CDC6AE">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="primary-font">Primary Font</label>
+                    <select id="primary-font">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Helvetica, sans-serif">Helvetica</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="Times New Roman, serif">Times New Roman</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label for="heading-font">Heading Font</label>
+                    <select id="heading-font">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Helvetica, sans-serif">Helvetica</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="Times New Roman, serif">Times New Roman</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label for="base-font-size">Base Font Size (px)</label>
+                    <input type="range" id="base-font-size" min="12" max="20" value="16">
+                    <span id="font-size-display">16px</span>
+                </div>
+                <div class="control-item">
+                    <label for="border-radius">Border Radius (px)</label>
+                    <input type="range" id="border-radius" min="0" max="20" value="8">
+                    <span id="radius-display">8px</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live Preview Section -->
+        <div class="style-section">
+            <h2 class="section-title">Live Preview</h2>
+            <div class="live-preview">
+                <h3 class="preview-title">This is how your changes look</h3>
+                <p class="preview-text">This text updates in real-time as you modify the colors, fonts, and spacing. All changes are applied instantly to show you exactly how they'll appear on your website.</p>
+                <div style="margin-top: 1rem;">
+                    <button class="btn-primary">Primary Button</button>
+                    <button class="btn-secondary">Secondary Button</button>
+                    <button class="btn-ghost">Ghost Button</button>
+                    <button class="btn-newsletter">Newsletter Button</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Color Palette Section -->
+        <div class="style-section">
+            <h2 class="section-title">Color Palette</h2>
+            <div class="color-palette">
+                <div class="color-card rich-black">
+                    <div class="color-name">Rich Black</div>
+                    <div class="color-hex" id="rich-black-hex">#0D1321</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem;">Primary text, headers</div>
+                </div>
+                <div class="color-card mauve">
+                    <div class="color-name">Mauve</div>
+                    <div class="color-hex" id="mauve-hex">#BAA5FF</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem;">Accent, highlights</div>
+                </div>
+                <div class="color-card caribbean">
+                    <div class="color-name">Caribbean Current</div>
+                    <div class="color-hex" id="caribbean-hex">#38686A</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem;">Primary actions, links</div>
+                </div>
+                <div class="color-card ash-gray">
+                    <div class="color-name">Ash Gray</div>
+                    <div class="color-hex" id="ash-gray-hex">#A3B4A2</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem;">Secondary elements</div>
+                </div>
+                <div class="color-card dun">
+                    <div class="color-name">Dun</div>
+                    <div class="color-hex" id="dun-hex">#CDC6AE</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem;">Backgrounds, subtle elements</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Typography Section -->
+        <div class="style-section">
+            <h2 class="section-title">Typography</h2>
+            <div style="display: grid; gap: 1.5rem;">
+                <div style="padding: 1rem; border-left: 4px solid var(--caribbean); background: #f8f9fa;">
+                    <h1 style="font-family: var(--heading-font); color: var(--rich-black); margin: 0;">Heading 1 - Page Titles</h1>
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-family: var(--primary-font);">Used for main page headings and hero sections</p>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid var(--caribbean); background: #f8f9fa;">
+                    <h2 style="font-family: var(--heading-font); color: var(--rich-black); margin: 0;">Heading 2 - Section Titles</h2>
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-family: var(--primary-font);">Used for major section headings and card titles</p>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid var(--caribbean); background: #f8f9fa;">
+                    <h3 style="font-family: var(--heading-font); color: var(--rich-black); margin: 0;">Heading 3 - Subsection Titles</h3>
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-family: var(--primary-font);">Used for subsection headings and component titles</p>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid var(--caribbean); background: #f8f9fa;">
+                    <h4 style="font-family: var(--heading-font); color: var(--rich-black); margin: 0;">Heading 4 - Small Headings</h4>
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-family: var(--primary-font);">Used for small headings and labels</p>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid var(--caribbean); background: #f8f9fa;">
+                    <p style="font-family: var(--primary-font); color: var(--rich-black); margin: 0; font-size: var(--base-font-size); line-height: 1.5;">Body text - This is how regular paragraph text appears throughout the website. It should be readable and provide good contrast against the background.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Button Components -->
+        <div class="style-section">
+            <h2 class="section-title">Button Components</h2>
+            <div class="button-examples">
+                <div class="button-demo">
+                    <h4>Primary Button</h4>
+                    <button class="btn-primary">Primary Action</button>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Main call-to-action buttons</p>
+                </div>
+                <div class="button-demo">
+                    <h4>Secondary Button</h4>
+                    <button class="btn-secondary">Secondary Action</button>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Secondary actions and alternatives</p>
+                </div>
+                <div class="button-demo">
+                    <h4>Ghost Button</h4>
+                    <button class="btn-ghost">Ghost Button</button>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Subtle actions and links</p>
+                </div>
+                <div class="button-demo">
+                    <h4>Newsletter Button</h4>
+                    <button class="btn-newsletter">Subscribe</button>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Newsletter and special actions</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form Components -->
+        <div class="style-section">
+            <h2 class="section-title">Form Components</h2>
+            <div class="form-examples">
+                <div class="form-demo">
+                    <h4>Text Input</h4>
+                    <div class="form-group">
+                        <label for="demo-name">Full Name</label>
+                        <input type="text" id="demo-name" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-email">Email Address</label>
+                        <input type="email" id="demo-email" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-demo">
+                    <h4>Textarea & Select</h4>
+                    <div class="form-group">
+                        <label for="demo-message">Message</label>
+                        <textarea id="demo-message" rows="4" placeholder="Enter your message"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-category">Category</label>
+                        <select id="demo-category">
+                            <option>Select a category</option>
+                            <option>General Inquiry</option>
+                            <option>Maintenance Request</option>
+                            <option>Payment Question</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spacing System -->
+        <div class="style-section">
+            <h2 class="section-title">Spacing System</h2>
+            <p style="margin-bottom: 1rem; color: #666;">Consistent spacing scale used throughout the design</p>
+            <div class="spacing-examples">
+                <div class="spacing-demo spacing-xs">XS - 0.25rem (4px)</div>
+                <div class="spacing-demo spacing-sm">SM - 0.5rem (8px)</div>
+                <div class="spacing-demo spacing-md">MD - 1rem (16px)</div>
+                <div class="spacing-demo spacing-lg">LG - 1.5rem (24px)</div>
+                <div class="spacing-demo spacing-xl">XL - 2rem (32px)</div>
+            </div>
+        </div>
+        
+        <!-- Export Controls -->
+        <div class="export-controls">
+            <h3><i class="fas fa-download"></i> Export & Apply Changes</h3>
+            <p>Export your updated styles and apply them to the website</p>
+            <button class="export-btn" onclick="exportStyles()">
+                <i class="fas fa-download"></i> Export CSS
+            </button>
+            <button class="reset-btn" onclick="resetStyles()">
+                <i class="fas fa-undo"></i> Reset to Default
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Live editing functionality
+        function updateCSSVariable(property, value) {
+            document.documentElement.style.setProperty(property, value);
+        }
+        
+        function updateColorDisplay(colorId, hexValue) {
+            document.getElementById(colorId + '-hex').textContent = hexValue.toUpperCase();
+        }
+        
+        function updateFontSizeDisplay() {
+            const fontSize = document.getElementById('base-font-size').value;
+            document.getElementById('font-size-display').textContent = fontSize + 'px';
+            updateCSSVariable('--base-font-size', fontSize + 'px');
+        }
+        
+        function updateRadiusDisplay() {
+            const radius = document.getElementById('border-radius').value;
+            document.getElementById('radius-display').textContent = radius + 'px';
+            updateCSSVariable('--border-radius', radius + 'px');
+        }
+        
+        // Color picker event listeners
+        document.getElementById('rich-black').addEventListener('input', function(e) {
+            updateCSSVariable('--rich-black', e.target.value);
+            updateColorDisplay('rich-black', e.target.value);
+        });
+        
+        document.getElementById('mauve').addEventListener('input', function(e) {
+            updateCSSVariable('--mauve', e.target.value);
+            updateColorDisplay('mauve', e.target.value);
+        });
+        
+        document.getElementById('caribbean').addEventListener('input', function(e) {
+            updateCSSVariable('--caribbean', e.target.value);
+            updateColorDisplay('caribbean', e.target.value);
+        });
+        
+        document.getElementById('ash-gray').addEventListener('input', function(e) {
+            updateCSSVariable('--ash-gray', e.target.value);
+            updateColorDisplay('ash-gray', e.target.value);
+        });
+        
+        document.getElementById('dun').addEventListener('input', function(e) {
+            updateCSSVariable('--dun', e.target.value);
+            updateColorDisplay('dun', e.target.value);
+        });
+        
+        // Font family event listeners
+        document.getElementById('primary-font').addEventListener('change', function(e) {
+            updateCSSVariable('--primary-font', e.target.value);
+        });
+        
+        document.getElementById('heading-font').addEventListener('change', function(e) {
+            updateCSSVariable('--heading-font', e.target.value);
+        });
+        
+        // Font size and border radius event listeners
+        document.getElementById('base-font-size').addEventListener('input', updateFontSizeDisplay);
+        document.getElementById('border-radius').addEventListener('input', updateRadiusDisplay);
+        
+        // Export functionality
+        function exportStyles() {
+            const styles = `
+/* Fox Creek HOA - Updated Styles */
+:root {
+    --rich-black: ${document.getElementById('rich-black').value};
+    --mauve: ${document.getElementById('mauve').value};
+    --caribbean: ${document.getElementById('caribbean').value};
+    --ash-gray: ${document.getElementById('ash-gray').value};
+    --dun: ${document.getElementById('dun').value};
+    --primary-font: ${document.getElementById('primary-font').value};
+    --heading-font: ${document.getElementById('heading-font').value};
+    --base-font-size: ${document.getElementById('base-font-size').value}px;
+    --border-radius: ${document.getElementById('border-radius').value}px;
+}
+
+/* Apply these styles to your main styles.css file */
+/* Replace the existing :root section with the above values */
+            `;
+            
+            const blob = new Blob([styles], { type: 'text/css' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fox-creek-updated-styles.css';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Styles exported! Copy the CSS from the downloaded file and replace the :root section in your styles.css file.');
+        }
+        
+        function resetStyles() {
+            // Reset to original values
+            document.getElementById('rich-black').value = '#0D1321';
+            document.getElementById('mauve').value = '#BAA5FF';
+            document.getElementById('caribbean').value = '#38686A';
+            document.getElementById('ash-gray').value = '#A3B4A2';
+            document.getElementById('dun').value = '#CDC6AE';
+            document.getElementById('primary-font').value = 'Arial, sans-serif';
+            document.getElementById('heading-font').value = 'Arial, sans-serif';
+            document.getElementById('base-font-size').value = '16';
+            document.getElementById('border-radius').value = '8';
+            
+            // Update CSS variables
+            updateCSSVariable('--rich-black', '#0D1321');
+            updateCSSVariable('--mauve', '#BAA5FF');
+            updateCSSVariable('--caribbean', '#38686A');
+            updateCSSVariable('--ash-gray', '#A3B4A2');
+            updateCSSVariable('--dun', '#CDC6AE');
+            updateCSSVariable('--primary-font', 'Arial, sans-serif');
+            updateCSSVariable('--heading-font', 'Arial, sans-serif');
+            updateCSSVariable('--base-font-size', '16px');
+            updateCSSVariable('--border-radius', '8px');
+            
+            // Update displays
+            updateColorDisplay('rich-black', '#0D1321');
+            updateColorDisplay('mauve', '#BAA5FF');
+            updateColorDisplay('caribbean', '#38686A');
+            updateColorDisplay('ash-gray', '#A3B4A2');
+            updateColorDisplay('dun', '#CDC6AE');
+            updateFontSizeDisplay();
+            updateRadiusDisplay();
+        }
+        
+        // Initialize displays
+        updateFontSizeDisplay();
+        updateRadiusDisplay();
+    </script>
+</body>
+</html>

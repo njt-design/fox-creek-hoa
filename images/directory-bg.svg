@@ -1,0 +1,28 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="directoryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#F7DBA7;stop-opacity:1" />
+<stop offset="25%" style="stop-color:#F1AB86;stop-opacity:1" />
+<stop offset="50%" style="stop-color:#C57B57;stop-opacity:1" />
+<stop offset="75%" style="stop-color:#1E2D2F;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#041F1E;stop-opacity:1" />
+</linearGradient>
+</defs>
+<rect width="1920" height="1080" fill="url(#directoryGradient)"/>
+<!-- Tree-lined street -->
+<circle cx="200" cy="400" r="140" fill="#1E2D2F" fill-opacity="0.8"/>
+<circle cx="500" cy="350" r="120" fill="#1E2D2F" fill-opacity="0.7"/>
+<circle cx="800" cy="450" r="160" fill="#1E2D2F" fill-opacity="0.6"/>
+<circle cx="1100" cy="380" r="130" fill="#1E2D2F" fill-opacity="0.75"/>
+<circle cx="1400" cy="420" r="150" fill="#1E2D2F" fill-opacity="0.8"/>
+<circle cx="1700" cy="360" r="125" fill="#1E2D2F" fill-opacity="0.7"/>
+<!-- Tree trunks -->
+<rect x="180" y="540" width="40" height="240" fill="#C57B57"/>
+<rect x="480" y="470" width="40" height="220" fill="#C57B57"/>
+<rect x="780" y="610" width="40" height="260" fill="#C57B57"/>
+<rect x="1080" y="510" width="40" height="250" fill="#C57B57"/>
+<rect x="1380" y="570" width="40" height="230" fill="#C57B57"/>
+<rect x="1680" y="485" width="40" height="235" fill="#C57B57"/>
+<!-- Street -->
+<rect x="0" y="900" width="1920" height="180" fill="#1E2D2F" fill-opacity="0.3"/>
+</svg>

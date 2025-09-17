@@ -1,19 +1,130 @@
+// Global Error Handler
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
+    // Could send to analytics service
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('Unhandled promise rejection:', e.reason);
+    // Could send to analytics service
+});
+
+// Performance Monitoring
+const performanceObserver = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+        if (entry.entryType === 'navigation') {
+            const loadTime = entry.loadEventEnd - entry.loadEventStart;
+            console.log('Page load time:', loadTime, 'ms');
+            
+            // Send to analytics (placeholder)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'page_load_time', {
+                    'custom_parameter_1': loadTime
+                });
+            }
+        }
+        
+        if (entry.entryType === 'measure') {
+            console.log('Custom measure:', entry.name, entry.duration, 'ms');
+        }
+    }
+});
+
+if ('PerformanceObserver' in window) {
+    performanceObserver.observe({ entryTypes: ['navigation', 'measure'] });
+}
+
+// Core Web Vitals Monitoring
+function measureWebVitals() {
+    // Largest Contentful Paint
+    if ('PerformanceObserver' in window) {
+        const lcpObserver = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            const lastEntry = entries[entries.length - 1];
+            console.log('LCP:', lastEntry.startTime, 'ms');
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+        
+        // First Input Delay
+        const fidObserver = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+                console.log('FID:', entry.processingStart - entry.startTime, 'ms');
+            });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
+        
+        // Cumulative Layout Shift
+        const clsObserver = new PerformanceObserver((list) => {
+            let clsValue = 0;
+            for (const entry of list.getEntries()) {
+                if (!entry.hadRecentInput) {
+                    clsValue += entry.value;
+                }
+            }
+            console.log('CLS:', clsValue);
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+    }
+}
+
+// Initialize performance monitoring
+measureWebVitals();
+
+// User Interaction Tracking
+function trackUserInteraction(action, element) {
+    console.log('User interaction:', action, element);
+    
+    // Send to analytics (placeholder)
+    if (typeof gtag !== 'undefined') {
+        gtag('event', action, {
+            'event_category': 'user_interaction',
+            'event_label': element
+        });
+    }
+}
+
 // Mobile Navigation Toggle
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    navToggle.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+        const isExpanded = navMenu.classList.contains('active');
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+        navToggle.setAttribute('aria-expanded', !isExpanded);
+        trackUserInteraction('mobile_menu_toggle', 'nav-toggle');
     });
-});
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.focus();
+        }
+    });
+}
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -33,23 +144,49 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const newsletterForm = document.getElementById('newsletter-form');
 const newsletterMessage = document.getElementById('newsletter-message');
 
-newsletterForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('newsletter-email').value;
-    
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if (!emailRegex.test(email)) {
-        showMessage(newsletterMessage, 'Please enter a valid email address.', 'error');
-        return;
-    }
-    
-    // Simulate form submission
-    showMessage(newsletterMessage, 'Thank you for subscribing to our newsletter!', 'success');
-    newsletterForm.reset();
-});
+if (newsletterForm && newsletterMessage) {
+    newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const emailInput = document.getElementById('newsletter-email');
+        const email = emailInput.value.trim();
+        
+        // Clear previous messages
+        clearMessage(newsletterMessage);
+        
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email) {
+            showMessage(newsletterMessage, 'Please enter your email address.', 'error');
+            emailInput.focus();
+            return;
+        }
+        
+        if (!emailRegex.test(email)) {
+            showMessage(newsletterMessage, 'Please enter a valid email address.', 'error');
+            emailInput.focus();
+            return;
+        }
+        
+        // Add loading state to button
+        const submitBtn = newsletterForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        
+        // Simulate form submission with loading state
+        showMessage(newsletterMessage, 'Subscribing...', 'info');
+        
+        setTimeout(() => {
+            showMessage(newsletterMessage, 'Thank you for subscribing to our newsletter!', 'success');
+            newsletterForm.reset();
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }, 1000);
+    });
+}
 
 // Contact Form Handling
 const contactForm = document.getElementById('contact-form');
@@ -75,60 +212,233 @@ contactForm.addEventListener('submit', function(e) {
         return;
     }
     
-    // Simulate form submission
-    showMessage(contactMessage, 'Thank you for your message! We will get back to you soon.', 'success');
-    contactForm.reset();
+        // Add loading state to button
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        
+        // Simulate form submission
+        showMessage(contactMessage, 'Sending message...', 'info');
+        
+        setTimeout(() => {
+            showMessage(contactMessage, 'Thank you for your message! We will get back to you soon.', 'success');
+            contactForm.reset();
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }, 1500);
 });
+
+// Payment Form Handling
+const paymentForm = document.getElementById('payment-form');
+const paymentMessage = document.getElementById('payment-message');
+
+if (paymentForm && paymentMessage) {
+    paymentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const propertyAddress = document.getElementById('property-address').value.trim();
+        const residentName = document.getElementById('resident-name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const amount = document.getElementById('amount').value;
+        const cardNumber = document.getElementById('card-number').value.trim();
+        const expiry = document.getElementById('expiry').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+        const billingAddress = document.getElementById('billing-address').value.trim();
+        
+        // Clear previous messages
+        clearMessage(paymentMessage);
+        
+        // Basic validation
+        if (!propertyAddress || !residentName || !email || !amount || !cardNumber || !expiry || !cvv || !billingAddress) {
+            showMessage(paymentMessage, 'Please fill in all required fields.', 'error');
+            return;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showMessage(paymentMessage, 'Please enter a valid email address.', 'error');
+            return;
+        }
+        
+        if (parseFloat(amount) <= 0) {
+            showMessage(paymentMessage, 'Please enter a valid payment amount.', 'error');
+            return;
+        }
+        
+        // Basic card number validation (just length check)
+        const cleanCardNumber = cardNumber.replace(/\s/g, '');
+        if (cleanCardNumber.length < 13 || cleanCardNumber.length > 19) {
+            showMessage(paymentMessage, 'Please enter a valid card number.', 'error');
+            return;
+        }
+        
+        // Add loading state to button
+        const submitBtn = paymentForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        
+        // Simulate payment processing
+        showMessage(paymentMessage, 'Processing payment...', 'info');
+        
+        setTimeout(() => {
+            showMessage(paymentMessage, 'Payment successful! Thank you for your payment.', 'success');
+            paymentForm.reset();
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }, 2000);
+    });
+}
 
 // Helper function to show messages
 function showMessage(element, text, type) {
+    if (!element) return;
+    
     element.textContent = text;
     element.className = `form-message ${type}`;
     element.style.display = 'block';
     
-    // Hide message after 5 seconds
-    setTimeout(() => {
-        element.style.display = 'none';
-    }, 5000);
+    // Announce to screen readers
+    element.setAttribute('aria-live', 'polite');
+    
+    // Hide message after 5 seconds (except for info messages)
+    if (type !== 'info') {
+        setTimeout(() => {
+            element.style.display = 'none';
+        }, 5000);
+    }
+}
+
+// Utility function to clear messages
+function clearMessage(element) {
+    if (!element) return;
+    
+    element.textContent = '';
+    element.className = 'form-message';
+    element.style.display = 'none';
+    element.removeAttribute('aria-live');
+}
+
+// Security: CSRF Token Generation
+function generateCSRFToken() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+// Security: Input Sanitization
+function sanitizeInput(input) {
+    return input.replace(/[<>\"'&]/g, function(match) {
+        const escape = {
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#x27;',
+            '&': '&amp;'
+        };
+        return escape[match];
+    });
+}
+
+// Security: Rate Limiting
+const rateLimitMap = new Map();
+function checkRateLimit(formId, maxAttempts = 5, windowMs = 60000) {
+    const now = Date.now();
+    const key = `${formId}_${window.location.hostname}`;
+    
+    if (!rateLimitMap.has(key)) {
+        rateLimitMap.set(key, { attempts: 0, resetTime: now + windowMs });
+    }
+    
+    const rateLimit = rateLimitMap.get(key);
+    
+    if (now > rateLimit.resetTime) {
+        rateLimit.attempts = 0;
+        rateLimit.resetTime = now + windowMs;
+    }
+    
+    if (rateLimit.attempts >= maxAttempts) {
+        return false;
+    }
+    
+    rateLimit.attempts++;
+    return true;
 }
 
 // Directory Data
 const residents = [
     {
         name: "John & Sarah Smith",
-        address: "123 Oak Street",
-        phone: "(555) 123-4567",
-        email: "smith@email.com"
+        street: "123 Oak Street",
+        business: "Smith Family Dentistry",
+        photo: "👨‍⚕️"
     },
     {
         name: "Mike Johnson",
-        address: "456 Pine Avenue",
-        phone: "(555) 234-5678",
-        email: "mike.j@email.com"
+        street: "456 Pine Avenue",
+        business: null,
+        photo: "👨"
     },
     {
         name: "Lisa & David Brown",
-        address: "789 Maple Drive",
-        phone: "(555) 345-6789",
-        email: "brown.family@email.com"
+        street: "789 Maple Drive",
+        business: "Brown's Landscaping",
+        photo: "👩‍🌾"
     },
     {
         name: "Robert Wilson",
-        address: "321 Cedar Lane",
-        phone: "(555) 456-7890",
-        email: "r.wilson@email.com"
+        street: "321 Cedar Lane",
+        business: null,
+        photo: "👨‍💼"
     },
     {
         name: "Jennifer Davis",
-        address: "654 Elm Street",
-        phone: "(555) 567-8901",
-        email: "j.davis@email.com"
+        street: "654 Elm Street",
+        business: "Davis Legal Services",
+        photo: "👩‍💼"
     },
     {
         name: "Tom & Mary Anderson",
-        address: "987 Birch Road",
-        phone: "(555) 678-9012",
-        email: "anderson.tm@email.com"
+        street: "987 Birch Road",
+        business: null,
+        photo: "👫"
+    },
+    {
+        name: "Carlos Rodriguez",
+        street: "147 Willow Way",
+        business: "Rodriguez Auto Repair",
+        photo: "👨‍🔧"
+    },
+    {
+        name: "Emily Chen",
+        street: "258 Spruce Street",
+        business: null,
+        photo: "👩"
+    },
+    {
+        name: "James & Linda Thompson",
+        street: "369 Dogwood Drive",
+        business: "Thompson Real Estate",
+        photo: "👨‍💼"
+    },
+    {
+        name: "Patricia Williams",
+        street: "741 Magnolia Lane",
+        business: "Williams Accounting",
+        photo: "👩‍💻"
+    },
+    {
+        name: "Michael & Susan Garcia",
+        street: "852 Hickory Hill",
+        business: null,
+        photo: "👫"
+    },
+    {
+        name: "David Lee",
+        street: "963 Poplar Place",
+        business: "Lee's Photography Studio",
+        photo: "👨‍🎨"
     }
 ];
 
@@ -222,19 +532,21 @@ function showTab(tabName) {
 }
 
 function populateResidents() {
-    const grid = document.getElementById('residents-grid');
-    grid.innerHTML = '';
+    const list = document.getElementById('residents-list');
+    list.innerHTML = '';
     
     residents.forEach(resident => {
-        const item = document.createElement('div');
-        item.className = 'directory-item';
-        item.innerHTML = `
-            <h4>${resident.name}</h4>
-            <p class="address">${resident.address}</p>
-            <p class="contact">Phone: ${resident.phone}</p>
-            <p class="contact">Email: ${resident.email}</p>
+        const card = document.createElement('div');
+        card.className = 'resident-card';
+        card.innerHTML = `
+            <div class="resident-photo">${resident.photo}</div>
+            <div class="resident-info">
+                <div class="resident-name">${resident.name}</div>
+                <div class="resident-street">${resident.street}</div>
+                ${resident.business ? `<div class="resident-business">${resident.business}</div>` : ''}
+            </div>
         `;
-        grid.appendChild(item);
+        list.appendChild(card);
     });
 }
 
@@ -258,15 +570,14 @@ function populateBusinesses() {
 
 function searchDirectory() {
     const searchTerm = document.getElementById('directory-search').value.toLowerCase();
-    const activeTab = document.querySelector('.tab-content.active');
-    const items = activeTab.querySelectorAll('.directory-item');
+    const cards = document.querySelectorAll('.resident-card');
     
-    items.forEach(item => {
-        const text = item.textContent.toLowerCase();
+    cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
         if (text.includes(searchTerm)) {
-            item.style.display = 'block';
+            card.style.display = 'flex';
         } else {
-            item.style.display = 'none';
+            card.style.display = 'none';
         }
     });
 }
@@ -298,7 +609,10 @@ document.addEventListener('DOMContentLoaded', function() {
     populateEvents();
     
     // Add search functionality to directory search input
-    document.getElementById('directory-search').addEventListener('input', searchDirectory);
+    const searchInput = document.getElementById('directory-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', searchDirectory);
+    }
 });
 
 // Add scroll effect to navbar
@@ -312,3 +626,4 @@ window.addEventListener('scroll', function() {
         navbar.style.backdropFilter = 'none';
     }
 });
+

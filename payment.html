@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Dues - Fox Creek HOA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <meta name="description" content="Pay Fox Creek HOA Dues - Secure online payment for your monthly HOA dues.">
+    <meta name="keywords" content="HOA, payment, dues, Fox Creek, online payment, secure">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <h2>Fox Creek HOA</h2>
+                    </a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="documents.html" class="nav-link">Documents</a>
+                    <a href="directory.html" class="nav-link">Neighbors</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="payment.html" class="nav-link active">Pay Dues</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header payment">
+            <div class="container">
+                <h1>Pay HOA Dues</h1>
+                <p>Secure online payment for your monthly HOA dues</p>
+            </div>
+        </section>
+
+        <!-- Payment Section -->
+        <section class="payment-section">
+            <div class="container">
+                <div class="payment-content">
+                    <div class="payment-info">
+                        <h2>Payment Information</h2>
+                        <div class="dues-details">
+                            <div class="dues-item">
+                                <span class="dues-label">Monthly Dues:</span>
+                                <span class="dues-amount">$150.00</span>
+                            </div>
+                            <div class="dues-item">
+                                <span class="dues-label">Due Date:</span>
+                                <span class="dues-date">1st of each month</span>
+                            </div>
+                            <div class="dues-item">
+                                <span class="dues-label">Late Fee:</span>
+                                <span class="dues-late">$25.00 after 15th</span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-methods">
+                            <h3>Accepted Payment Methods</h3>
+                            <div class="payment-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                                <i class="fab fa-cc-discover"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-form-container">
+                        <form class="payment-form" id="payment-form" role="form" aria-label="Payment form">
+                            <h3>Payment Details</h3>
+                            
+                            <div class="form-group">
+                                <label for="property-address">Property Address *</label>
+                                <input type="text" id="property-address" name="property-address" required aria-describedby="payment-message" autocomplete="address-line1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="resident-name">Resident Name *</label>
+                                <input type="text" id="resident-name" name="resident-name" required aria-describedby="payment-message" autocomplete="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required aria-describedby="payment-message" autocomplete="email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount">Payment Amount *</label>
+                                <div class="amount-input">
+                                    <span class="currency" aria-hidden="true">$</span>
+                                    <input type="number" id="amount" name="amount" value="150.00" step="0.01" min="0" required aria-describedby="payment-message">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="card-number">Card Number *</label>
+                                <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required aria-describedby="payment-message" autocomplete="cc-number">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiry">Expiry Date *</label>
+                                    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required aria-describedby="payment-message" autocomplete="cc-exp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV *</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123" required aria-describedby="payment-message" autocomplete="cc-csc">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billing-address">Billing Address *</label>
+                                <input type="text" id="billing-address" name="billing-address" required aria-describedby="payment-message" autocomplete="address-line1">
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="save-payment" name="save-payment">
+                                <label for="save-payment">Save payment method for future use</label>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="auto-pay" name="auto-pay">
+                                <label for="auto-pay">Set up automatic monthly payments</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary payment-btn" aria-describedby="payment-message">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                                Pay $150.00
+                            </button>
+
+                            <div class="security-note" role="note" aria-label="Security information">
+                                <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                                <span>Your payment information is encrypted and secure</span>
+                            </div>
+                            
+                            <div class="form-message" id="payment-message" role="status" aria-live="polite"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment History Section -->
+        <section class="payment-history-section">
+            <div class="container">
+                <h2>Payment History</h2>
+                <div class="history-table">
+                    <div class="table-header">
+                        <div class="col-date">Date</div>
+                        <div class="col-amount">Amount</div>
+                        <div class="col-status">Status</div>
+                        <div class="col-reference">Reference</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="col-date">Dec 1, 2024</div>
+                        <div class="col-amount">$150.00</div>
+                        <div class="col-status paid">Paid</div>
+                        <div class="col-reference">#PAY-2024-1201</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="col-date">Nov 1, 2024</div>
+                        <div class="col-amount">$150.00</div>
+                        <div class="col-status paid">Paid</div>
+                        <div class="col-reference">#PAY-2024-1101</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="col-date">Oct 1, 2024</div>
+                        <div class="col-amount">$150.00</div>
+                        <div class="col-status paid">Paid</div>
+                        <div class="col-reference">#PAY-2024-1001</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fox Creek HOA</h3>
+                    <p>Building community, one home at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="documents.html">Documents</a></li>
+                        <li><a href="directory.html">Neighbors</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="payment.html">Pay Dues</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>info@foxcreekhoa.com</p>
+                    <p>(555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fox Creek HOA. All rights reserved. <a href="admin.html" style="color: #2c2c2c; text-decoration: none; opacity: 0.1; font-size: 0.8rem;">admin</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

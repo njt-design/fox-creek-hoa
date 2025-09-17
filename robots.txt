@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://foxcreekhoa.com/sitemap.xml
+
+# Disallow admin area
+Disallow: /admin.html
+
+# Crawl delay
+Crawl-delay: 1

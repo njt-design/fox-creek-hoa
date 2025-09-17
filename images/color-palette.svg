@@ -1,0 +1,58 @@
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#f8f8f8;stop-opacity:1" />
+</linearGradient>
+</defs>
+<rect width="800" height="400" fill="url(#backgroundGradient)"/>
+
+<!-- Title -->
+<text x="400" y="40" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="300" fill="#2c2c2c">Fox Creek HOA Color Palette</text>
+
+<!-- Primary Colors -->
+<rect x="50" y="80" width="120" height="80" fill="#2c2c2c"/>
+<text x="110" y="105" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="white">#2c2c2c</text>
+<text x="110" y="120" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="white">Primary Text</text>
+
+<rect x="200" y="80" width="120" height="80" fill="#ffffff"/>
+<rect x="200" y="80" width="120" height="80" stroke="#e0e0e0" stroke-width="2" fill="none"/>
+<text x="260" y="105" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#2c2c2c">#ffffff</text>
+<text x="260" y="120" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="#2c2c2c">Background</text>
+
+<rect x="350" y="80" width="120" height="80" fill="#f8f8f8"/>
+<text x="410" y="105" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#2c2c2c">#f8f8f8</text>
+<text x="410" y="120" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="#2c2c2c">Section BG</text>
+
+<rect x="500" y="80" width="120" height="80" fill="#e0e0e0"/>
+<text x="560" y="105" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#2c2c2c">#e0e0e0</text>
+<text x="560" y="120" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="#2c2c2c">Borders</text>
+
+<!-- Secondary Colors -->
+<rect x="50" y="200" width="120" height="80" fill="#666666"/>
+<text x="110" y="225" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="white">#666666</text>
+<text x="110" y="240" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="white">Secondary Text</text>
+
+<rect x="200" y="200" width="120" height="80" fill="#999999"/>
+<text x="260" y="225" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="white">#999999</text>
+<text x="260" y="240" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="white">Muted Text</text>
+
+<rect x="350" y="200" width="120" height="80" fill="#f0f0f0"/>
+<text x="410" y="225" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#2c2c2c">#f0f0f0</text>
+<text x="410" y="240" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="#2c2c2c">Photo BG</text>
+
+<rect x="500" y="200" width="120" height="80" fill="#ffffff"/>
+<rect x="500" y="200" width="120" height="80" stroke="#2c2c2c" stroke-width="2" fill="none"/>
+<text x="560" y="225" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#2c2c2c">#ffffff</text>
+<text x="560" y="240" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="300" fill="#2c2c2c">Cards</text>
+
+<!-- Design Principles -->
+<text x="50" y="320" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="300" fill="#2c2c2c">Design Principles:</text>
+<text x="50" y="340" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#666">• Minimal & Clean</text>
+<text x="50" y="355" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#666">• Architectural Precision</text>
+<text x="50" y="370" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#666">• Generous White Space</text>
+
+<text x="400" y="340" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#666">• Sharp Edges (No Border Radius)</text>
+<text x="400" y="355" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#666">• Light Typography (300-400 weight)</text>
+<text x="400" y="370" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" fill="#666">• Subtle Hover Effects</text>
+</svg>

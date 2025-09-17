@@ -1,0 +1,30 @@
+{
+  "name": "fox-creek",
+  "version": "1.0.0",
+  "description": "A responsive website for the Fox Creek Homeowners Association, built with modern web technologies.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "figma:connect": "node figma-simple.js",
+    "figma:sync": "node scripts/sync-figma.js",
+    "dev": "python3 -m http.server 8001",
+    "start": "python3 -m http.server 8001"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/njt-design/fox-creek-hoa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/njt-design/fox-creek-hoa/issues"
+  },
+  "homepage": "https://github.com/njt-design/fox-creek-hoa#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.0",
+    "dotenv": "^17.2.2",
+    "figma-mcp": "^0.1.4"
+  }
+}

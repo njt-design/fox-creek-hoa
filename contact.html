@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Fox Creek HOA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <meta name="description" content="Contact Fox Creek HOA - Get in touch with the HOA board and management team.">
+    <meta name="keywords" content="HOA, contact, Fox Creek, management, board, support">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <h2>Fox Creek HOA</h2>
+                    </a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="documents.html" class="nav-link">Documents</a>
+                    <a href="directory.html" class="nav-link">Neighbors</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="contact.html" class="nav-link active">Contact</a>
+                    <a href="payment.html" class="nav-link">Pay Dues</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header contact">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>Get in touch with the HOA board and management</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Get in Touch</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <div>
+                                <strong>Email:</strong>
+                                <a href="mailto:info@foxcreekhoa.com" class="contact-link">info@foxcreekhoa.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <div>
+                                <strong>Phone:</strong>
+                                <a href="tel:+15551234567" class="contact-link">(555) 123-4567</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <div>
+                                <strong>Address:</strong>
+                                <address class="contact-address">
+                                    123 Fox Creek Drive<br>
+                                    Your City, ST 12345
+                                </address>
+                            </div>
+                        </div>
+                        
+                        <h4 class="contact-section-title">Office Hours</h4>
+                        <div class="contact-item">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <div>
+                                <strong>Monday - Friday:</strong> 9:00 AM - 5:00 PM
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <div>
+                                <strong>Saturday:</strong> 10:00 AM - 2:00 PM
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <div>
+                                <strong>Sunday:</strong> Closed
+                            </div>
+                        </div>
+
+                        <h4 class="contact-section-title">Emergency Contact</h4>
+                        <div class="contact-item emergency-contact">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <div>
+                                <strong>24/7 Emergency:</strong>
+                                <a href="tel:+15559114357" class="contact-link emergency-link">(555) 911-HELP</a>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contact-form" role="form" aria-label="Contact form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name" class="sr-only">Your Name</label>
+                                <input type="text" id="contact-name" name="name" placeholder="Your Name" required aria-describedby="contact-message-status" autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email" class="sr-only">Your Email</label>
+                                <input type="email" id="contact-email" name="email" placeholder="Your Email" required aria-describedby="contact-message-status" autocomplete="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject" class="sr-only">Subject</label>
+                            <input type="text" id="contact-subject" name="subject" placeholder="Subject" required aria-describedby="contact-message-status">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message" class="sr-only">Your Message</label>
+                            <textarea id="contact-message" name="message" placeholder="Your Message" rows="5" required aria-describedby="contact-message-status"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" aria-describedby="contact-message-status">Send Message</button>
+                        <div class="form-message" id="contact-message-status" role="status" aria-live="polite"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fox Creek HOA</h3>
+                    <p>Building community, one home at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="documents.html">Documents</a></li>
+                        <li><a href="directory.html">Neighbors</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="payment.html">Pay Dues</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>info@foxcreekhoa.com</p>
+                    <p>(555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fox Creek HOA. All rights reserved. <a href="admin.html" style="color: #2c2c2c; text-decoration: none; opacity: 0.1; font-size: 0.8rem;">admin</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
